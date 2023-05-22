@@ -13,7 +13,10 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'prettier',
+    // 1. 继承 .prettierrc.cjs 文件规则
+    // 2. 开启rules的 "prettier/prettier": "error"
+    // 3. eslint fix 的同时执行 prettier 格式化
+    'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
