@@ -31,12 +31,13 @@ const Login = () => {
         await message.success(`获取验证码成功！验证码为：${codeMessage}`);
       })
       .catch(async (err) => {
+        // 后台返回的异常代码
+        console.error('错误码:', err.graphQLErrors[0].extensions.code);
         await message.error(`获取验证码失败: ${err.message}`);
       });
   };
 
   const handleUserLogin = async (formData: Record<string, string>) => {
-    //
     console.log('formData:', formData);
     check({ variables: { tel: formData.mobile, code: formData.captcha } })
       .then(async ({ data: { smsLogin } }) => {
@@ -48,7 +49,8 @@ const Login = () => {
         });
       })
       .catch(async (err) => {
-        console.error('错误消息:', err.message);
+        // 后台返回的异常代码
+        console.error('错误码:', err.graphQLErrors[0].extensions.code);
         await message.error(`登录失败：${err.message}`);
       });
   };
