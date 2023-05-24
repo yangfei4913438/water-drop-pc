@@ -1,9 +1,9 @@
-import { RouteObject } from 'react-router-dom';
+import { RouteProps } from 'react-router-dom';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
 import Page404 from '@/pages/page404';
 
-type routeProps = RouteObject & { title: string };
+type routeProps = RouteProps & { title: string };
 
 export const routesList: routeProps[] = [
   {
