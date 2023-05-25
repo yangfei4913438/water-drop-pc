@@ -11,13 +11,15 @@ export const sendCodeMsg = gql`
 export const checkCodeMsg = gql`
   mutation login($tel: String!, $code: String!) {
     smsLogin(tel: $tel, code: $code) {
-      id
-      account
-      password
-      tel
-      name
-      desc
-      avatar
+      user {
+        id
+        account
+        tel
+        name
+        desc
+        avatar
+      }
+      token
     }
   }
 `;
