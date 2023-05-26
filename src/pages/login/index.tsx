@@ -13,7 +13,8 @@ import { checkCodeMsg, sendCodeMsg } from '@/graphql/sms';
 
 import styles from '@/styles/login.module.scss';
 import { AUTH_TOKEN } from '@/consts/cache';
-import { UserFieldType, userProfile } from '@/graphql/user';
+import { userProfile, UserType } from '@/graphql/user';
+import useStore from '@/store';
 
 interface FormType {
   mobile: string;
@@ -25,13 +26,14 @@ const Login = () => {
   const [send] = useMutation(sendCodeMsg);
   const [check] = useMutation(checkCodeMsg);
   const navigate = useNavigate();
+  const { setUserInfo } = useStore();
 
   // 如果已经存在有效的JWT, 就直接跳转首页，无需等待登陆页渲染
-  useQuery<{ profile: UserFieldType }>(userProfile, {
+  useQuery<{ profile: UserType }>(userProfile, {
     // 只处理请求成功的情况
     onCompleted: ({ profile }) => {
       // 处理拿到的用户数据
-      console.log('profile:', profile);
+      setUserInfo(profile);
       // 处理完用户数据，路由跳转首页
       navigate('/');
     },
@@ -61,7 +63,8 @@ const Login = () => {
           localStorage.setItem(AUTH_TOKEN, smsLogin.token);
         }
         await message.success('登录成功', 2).then(() => {
-          console.log('路由跳转首页');
+          // 记录用户数据
+          setUserInfo(smsLogin.user);
           // 路由跳转首页
           navigate('/');
         });

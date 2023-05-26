@@ -1,11 +1,17 @@
 import { gql } from '@apollo/client';
 
-export interface UserFieldType {
+export interface UserType {
+  /** 用户id */
   id: string;
+  /** 用户头像 */
   avatar: string;
+  /** 用户昵称 */
   name: string;
+  /** 用户描述 */
   desc: string;
+  /** 用户登录手机号 */
   tel: string;
+  /** 用户登录账号 */
   account: string;
 }
 

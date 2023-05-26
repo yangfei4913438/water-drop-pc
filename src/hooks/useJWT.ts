@@ -1,13 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { UserFieldType, userProfile } from '@/graphql/user';
+import { userProfile, UserType } from '@/graphql/user';
 
 // 检查JWT是否过期
 const useJWT = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useQuery<{ profile: UserFieldType }>(userProfile, {
+  useQuery<{ profile: UserType }>(userProfile, {
     // 登陆页不检查
     skip: location.pathname === '/login',
     // 只处理请求失败的情况
