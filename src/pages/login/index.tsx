@@ -52,7 +52,7 @@ const Login = () => {
         // 只有自动登录，才会保存登录信息
         localCache.setItem(AUTH_TOKEN, smsLogin.token, formData.autoLogin);
 
-        await message.success('登录成功', 2).then(() => {
+        await message.success('登录成功', 1).then(() => {
           // 记录用户数据
           setUserInfo(smsLogin.user);
           // 路由跳转首页
