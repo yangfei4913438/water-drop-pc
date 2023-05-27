@@ -1,6 +1,6 @@
-@use "global.module";
+@use "base.module";
 
 .container {
-  @extend .full-screen;
+  @apply w-full h-full;
   @extend .flex-center;
 }

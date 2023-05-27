@@ -1,0 +1,24 @@
+@use "base.module";
+
+
+// 非404页面
+.container {
+  @extend .flex-center;
+}
+
+// 404页面需要多几个全局类
+.container404 {
+  @extend .container;
+
+  // 修改antd的默认样式, 不加哈希值，原样替换
+  :global(.ant-pro-layout-container) {
+    @apply h-screen;
+  }
+  :global(.ant-layout-content) {
+    @apply flex-1;
+  }
+  :global(.ant-pro-page-container) {
+    @extend .flex-center;
+    @apply h-full;
+  }
+}

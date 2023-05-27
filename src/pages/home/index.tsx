@@ -1,10 +1,18 @@
 import React, { FC } from 'react';
-import useJWT from '@/hooks/useJWT';
+import useProjectRoute from '@/hooks/useProjectRoute';
+import { minePath } from '@/consts/routes';
 
 const Home: FC = () => {
-  useJWT();
+  const { goToRoute } = useProjectRoute();
 
-  return <div>this is Home Page</div>;
+  return (
+    <div className='home'>
+      <p>this is Home Page</p>
+      <button type='button' onClick={() => goToRoute(minePath)}>
+        去个人中心
+      </button>
+    </div>
+  );
 };
 
 export default Home;

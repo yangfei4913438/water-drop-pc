@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { LockOutlined, MobileOutlined } from '@ant-design/icons';
 import {
   LoginFormPage,
@@ -7,14 +6,16 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { message } from 'antd';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import { checkCodeMsg, sendCodeMsg } from '@/graphql/sms';
-
 import styles from '@/styles/login.module.scss';
 import { AUTH_TOKEN } from '@/consts/cache';
-import { userProfile, UserType } from '@/graphql/user';
 import useStore from '@/store';
+import useJWT from '@/hooks/useJWT';
+import { homePath } from '@/consts/routes';
+import useProjectRoute from '@/hooks/useProjectRoute';
+import localCache from '@/core/cache';
 
 interface FormType {
   mobile: string;
@@ -23,27 +24,17 @@ interface FormType {
 }
 
 const Login = () => {
+  // JWT校验
+  useJWT();
   const [send] = useMutation(sendCodeMsg);
   const [check] = useMutation(checkCodeMsg);
-  const navigate = useNavigate();
+  const { goToRoute } = useProjectRoute();
   const { setUserInfo } = useStore();
 
-  // 如果已经存在有效的JWT, 就直接跳转首页，无需等待登陆页渲染
-  useQuery<{ profile: UserType }>(userProfile, {
-    // 只处理请求成功的情况
-    onCompleted: ({ profile }) => {
-      // 处理拿到的用户数据
-      setUserInfo(profile);
-      // 处理完用户数据，路由跳转首页
-      navigate('/');
-    },
-  });
-
   const handleGetCaptcha = async (mobile: string) => {
-    console.log('tel:', mobile);
     await send({ variables: { tel: mobile } })
       .then(async ({ data: { codeMessage } }) => {
-        console.log('res:', codeMessage);
+        // console.log('res:', codeMessage);
         await message.success(`获取验证码成功！验证码为：${codeMessage}`);
       })
       .catch(async (err) => {
@@ -54,19 +45,18 @@ const Login = () => {
   };
 
   const handleUserLogin = async (formData: FormType) => {
-    console.log('formData:', formData);
+    // console.log('formData:', formData);
     check({ variables: { tel: formData.mobile, code: formData.captcha } })
       .then(async ({ data: { smsLogin } }) => {
         // 处理返回的用户数据
-        if (formData.autoLogin) {
-          // 只有自动登录，才会保存登录信息
-          localStorage.setItem(AUTH_TOKEN, smsLogin.token);
-        }
+        // 只有自动登录，才会保存登录信息
+        localCache.setItem(AUTH_TOKEN, smsLogin.token, formData.autoLogin);
+
         await message.success('登录成功', 2).then(() => {
           // 记录用户数据
           setUserInfo(smsLogin.user);
           // 路由跳转首页
-          navigate('/');
+          goToRoute(homePath);
         });
       })
       .catch(async (err) => {
@@ -81,7 +71,7 @@ const Login = () => {
       <LoginFormPage
         onFinish={handleUserLogin}
         backgroundImageUrl='https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'
-        logo='https://yangfei-assets.oss-cn-shanghai.aliyuncs.com/images/henglogo@2x.png'
+        logo='https://yangfei-assets.oss-cn-shanghai.aliyuncs.com/images/henglogo_2x.webp'
       >
         <>
           <ProFormText
