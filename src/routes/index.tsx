@@ -28,6 +28,7 @@ export const routesList: routeProps[] = [
     element: <Mine />,
     name: '我的',
     icon: <IdcardOutlined />,
+    hideInMenu: true,
   },
   {
     path: '*', // 这里的*要放在最后，用于匹配异常路由

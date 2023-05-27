@@ -7,11 +7,11 @@ import { routesList } from '@/routes';
 import useJWT from '@/hooks/useJWT';
 
 import styles from '@/styles/layout.module.scss';
-import { homePath, loginPath } from '@/consts/routes';
+import { homePath, loginPath, minePath } from '@/consts/routes';
 import useProjectRoute from '@/hooks/useProjectRoute';
 import localCache from '@/core/cache';
 import { LogoutOutlined } from '@ant-design/icons';
-import { Dropdown } from 'antd';
+import { Space } from 'antd';
 
 const menuItemRender = (item: MenuDataItem, dom: ReactNode) => (
   <Link to={item.path ?? homePath}>{dom}</Link>
@@ -27,7 +27,7 @@ const Layout = () => {
   // 取出用户信息
   const { userInfo } = useStore();
 
-  const logout = () => {
+  const logoutHandler = () => {
     localCache.clear();
     reFresh();
   };
@@ -40,24 +40,8 @@ const Layout = () => {
       avatarProps={{
         title: userInfo.name,
         src: userInfo.avatar,
-        size: 'small',
         render: (props, dom) => {
-          return (
-            <Dropdown
-              menu={{
-                items: [
-                  {
-                    key: 'logout',
-                    icon: <LogoutOutlined />,
-                    label: '退出登录',
-                    onClick: logout,
-                  },
-                ],
-              }}
-            >
-              {dom}
-            </Dropdown>
-          );
+          return <div onClick={() => goToRoute(minePath)}>{dom}</div>;
         },
       }}
       logo={
@@ -66,6 +50,12 @@ const Layout = () => {
           alt=''
         />
       }
+      links={[
+        <Space size={20} onClick={logoutHandler} key='logout'>
+          <LogoutOutlined />
+          退出登录
+        </Space>,
+      ]}
       title={false}
       onMenuHeaderClick={() => {
         // 点击logo, 跳转首页
