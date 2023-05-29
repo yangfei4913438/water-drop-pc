@@ -11,20 +11,33 @@ export interface UserType {
   desc: string;
   /** 用户登录手机号 */
   tel: string;
-  /** 用户登录账号 */
-  account: string;
+  /** 用户类型 */
+  userType: string;
+  /** 用户是否已经被禁用 */
+  disabled: boolean;
+}
+
+export interface ResultType<T> {
+  code: number;
+  message: string;
+  data?: T;
 }
 
 // 使用jwt获取用户数据
 export const userProfile = gql`
   query getProfile {
     profile {
-      id
-      name
-      desc
-      avatar
-      tel
-      account
+      code
+      message
+      data {
+        id
+        name
+        desc
+        avatar
+        tel
+        userType
+        disabled
+      }
     }
   }
 `;
@@ -33,33 +46,50 @@ export const userProfile = gql`
 export const findUser = gql`
   query findUser($id: String!) {
     find(id: $id) {
-      id
-      name
-      desc
-      avatar
-      tel
-      account
+      code
+      message
+      data {
+        id
+        name
+        desc
+        avatar
+        tel
+        userType
+        disabled
+      }
     }
   }
 `;
 
 // 创建用户
 export const createUser = gql`
-  mutation createUser($params: UserInput!) {
-    create(params: $params)
+  mutation create($params: UserInputType!) {
+    create(params: $params) {
+      code
+      message
+      data
+    }
   }
 `;
 
 // 更新用户
 export const updateUser = gql`
-  mutation updateUser($id: String!, $params: UserInput!) {
-    update(id: $id, params: $params)
+  mutation update($id: String!, $params: UserInputType!) {
+    update(id: $id, params: $params) {
+      code
+      message
+      data
+    }
   }
 `;
 
 // 删除用户
 export const removeUser = gql`
-  mutation removeUser($id: String!) {
-    remove(id: $id)
+  mutation delete($id: String!) {
+    delete(id: $id) {
+      code
+      message
+      data
+    }
   }
 `;

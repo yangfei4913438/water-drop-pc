@@ -16,6 +16,8 @@ import useJWT from '@/hooks/useJWT';
 import { homePath } from '@/consts/routes';
 import useProjectRoute from '@/hooks/useProjectRoute';
 import localCache from '@/core/cache';
+import { printGraphqlException } from '@/utils/log';
+import { ResultType, UserType } from '@/graphql/user';
 
 interface FormType {
   mobile: string;
@@ -26,43 +28,54 @@ interface FormType {
 const Login = () => {
   // JWT校验
   useJWT();
-  const [send] = useMutation(sendCodeMsg);
-  const [check] = useMutation(checkCodeMsg);
+  const [send] = useMutation<{ codeMessage: ResultType<string> }>(sendCodeMsg);
+  const [check] = useMutation<{ smsLogin: ResultType<{ user: UserType; token: string }> }>(
+    checkCodeMsg
+  );
   const { goToRoute } = useProjectRoute();
   const { setUserInfo } = useStore();
 
   const handleGetCaptcha = async (mobile: string) => {
     await send({ variables: { tel: mobile } })
-      .then(async ({ data: { codeMessage } }) => {
-        // console.log('res:', codeMessage);
-        await message.success(`获取验证码成功！验证码为：${codeMessage}`);
+      .then(async ({ data }) => {
+        const { codeMessage } = data!;
+        if (codeMessage.code === 200) {
+          await message.success(`获取验证码成功！验证码为：${codeMessage.data}`);
+        } else {
+          console.error('错误码:', codeMessage.code, codeMessage.message);
+          await message.error(`获取验证码失败: ${codeMessage.code} ${codeMessage.message}`);
+        }
       })
       .catch(async (err) => {
         // 后台返回的异常代码
-        console.error('错误码:', err.graphQLErrors[0].extensions.code);
+        printGraphqlException(err);
         await message.error(`获取验证码失败: ${err.message}`);
       });
   };
 
   const handleUserLogin = async (formData: FormType) => {
-    // console.log('formData:', formData);
     check({ variables: { tel: formData.mobile, code: formData.captcha } })
-      .then(async ({ data: { smsLogin } }) => {
-        // 处理返回的用户数据
-        // 只有自动登录，才会保存登录信息
-        localCache.setItem(AUTH_TOKEN, smsLogin.token, formData.autoLogin);
-
-        await message.success('登录成功', 1).then(() => {
-          // 记录用户数据
-          setUserInfo(smsLogin.user);
-          // 路由跳转首页
-          goToRoute(homePath);
-        });
+      .then(async ({ data }) => {
+        const { smsLogin } = data!;
+        if (smsLogin.code === 200) {
+          // 处理返回的用户数据
+          // 只有自动登录，才会保存登录信息
+          localCache.setItem(AUTH_TOKEN, smsLogin.data!.token, formData.autoLogin);
+          await message.success('登录成功', 1).then(() => {
+            // 记录用户数据
+            setUserInfo(smsLogin.data!.user);
+            // 路由跳转首页
+            goToRoute(homePath);
+          });
+        } else {
+          console.error('错误码:', smsLogin.code, smsLogin.message);
+          await message.error(`登录失败: ${smsLogin.code} ${smsLogin.message}`);
+        }
       })
       .catch(async (err) => {
         // 后台返回的异常代码
-        console.error('错误码:', err.graphQLErrors[0].extensions.code);
-        await message.error(`登录失败：${err.message}`);
+        printGraphqlException(err);
+        await message.error(`登录失败，请稍后再试`);
       });
   };
 

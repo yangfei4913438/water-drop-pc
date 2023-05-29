@@ -8,7 +8,8 @@ export const userInfoDefault: UserType = {
   avatar: '',
   desc: '',
   tel: '',
-  account: '',
+  userType: 'admin',
+  disabled: false,
 };
 
 /** 用户信息的数据原子对象 */

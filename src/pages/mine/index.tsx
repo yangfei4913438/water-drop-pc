@@ -3,9 +3,10 @@ import { useMutation } from '@apollo/client';
 import useProjectRoute from '@/hooks/useProjectRoute';
 import { Col, Form, message, Row } from 'antd';
 import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
-import { updateUser, type UserType } from '@/graphql/user';
+import { ResultType, updateUser, type UserType } from '@/graphql/user';
 import useStore from '@/store';
 import OSSImageUpload from '@/components/OSSImageUpload';
+import { printGraphqlException } from '@/utils/log';
 
 const Mine: FC = () => {
   // 经 Form.useForm() 创建的 form 控制实例，不提供时会自动创建
@@ -28,7 +29,7 @@ const Mine: FC = () => {
   }, [form, userInfo]);
 
   // 更新用户
-  const [update, { loading }] = useMutation(updateUser);
+  const [update, { loading }] = useMutation<{ update: ResultType<boolean> }>(updateUser);
 
   // 响应提交按钮，参数就是所有表单选项的kv值, 不会有多余的无关属性
   const handleFinish = async (formData: UserType & { avatars: { url: string }[] }) => {
@@ -43,14 +44,22 @@ const Mine: FC = () => {
         },
       },
     })
-      .then(() => {
-        message.success('更新成功', 1).then(() => {
-          // 刷新页面会自动更新用户数据
-          reFresh();
-        });
+      .then(async ({ data }) => {
+        const { update } = data!;
+        if (update.code === 200) {
+          message.success('更新成功', 1).then(() => {
+            // 刷新页面会自动更新用户数据
+            reFresh();
+          });
+        } else {
+          console.error('错误码:', update.code, update.message);
+          await message.error(`更新失败: ${update.code} ${update.message}`);
+        }
       })
-      .catch((err) => {
-        console.error('failed:', err);
+      .catch(async (err) => {
+        // 后台返回的异常代码
+        printGraphqlException(err);
+        await message.error(`更新失败: ${err.message}`);
       });
   };
 
