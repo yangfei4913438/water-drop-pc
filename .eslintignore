@@ -8,3 +8,6 @@ mock/
 .postcssrc.cjs
 vite.config.ts
 tailwind.config.js
+
+# style file
+**/*.scss
