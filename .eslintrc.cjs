@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true, node: true, commonjs: true },
+  env: { browser: true, es2021: true },
   extends: [
     'eslint:recommended',
     'airbnb',
@@ -63,9 +63,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 0,
   },
   settings: {
-    react: {
-      version: 'detect',
-    },
     'import/resolver': {
       typescript: {
         project: path.join(__dirname, './tsconfig.json'), // 读取ts配置文件
@@ -73,5 +70,4 @@ module.exports = {
       },
     },
   },
-  ignorePatterns: ['.eslintrc.cjs'],
 };
