@@ -57,7 +57,7 @@ const colors = {
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx,scss}'],
   safelist: [
     'col-span-1',
     'col-span-2',

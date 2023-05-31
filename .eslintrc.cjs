@@ -5,14 +5,12 @@ module.exports = {
   env: { browser: true, es2021: true },
   extends: [
     'eslint:recommended',
-    'airbnb',
-    'airbnb-typescript',
-    'airbnb/hooks',
     'plugin:import/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:tailwindcss/recommended',
     // 1. 继承 .prettierrc.cjs 文件规则
     // 2. 开启rules的 "prettier/prettier": "error"
     // 3. eslint fix 的同时执行 prettier 格式化
@@ -25,7 +23,7 @@ module.exports = {
     project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['react-refresh'],
+  plugins: ['simple-import-sort', 'react-refresh'],
   rules: {
     'no-nested-ternary': 0,
     'no-return-assign': 0,
@@ -33,6 +31,8 @@ module.exports = {
     'no-restricted-syntax': 0,
     'no-plusplus': 0,
     'no-console': 0,
+    'no-void': 0,
+    'no-undef': 0,
 
     'consistent-return': 0,
 
@@ -61,6 +61,13 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-var-requires': 0,
+
+    'simple-import-sort/imports': 2,
+    'simple-import-sort/exports': 2,
+    'import/first': 2,
+    'import/newline-after-import': 2,
+    'import/no-duplicates': 2,
   },
   settings: {
     'import/resolver': {
@@ -69,5 +76,16 @@ module.exports = {
         alwaysTryTypes: true, // always try to resolve types under
       },
     },
+    react: {
+      version: 'detect', // React version. "detect" automatically picks the version you have installed.
+    },
+    tailwindcss: {
+      config: 'tailwind.config.cjs',
+      cssFiles: ['**/*.scss', '!**/node_modules', '!**/dist', '!**/build'],
+      removeDuplicates: true,
+      skipClassAttribute: false,
+      whitelist: ['prefixIcon'],
+    },
   },
+  ignorePatterns: ['**/*.scss', '**/*.css'],
 };

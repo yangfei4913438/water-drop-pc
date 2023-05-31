@@ -1,13 +1,3 @@
 node_modules/
 .idea/
 mock/
-
-# file
-.eslintrc.cjs
-.prettierrc.cjs
-.postcssrc.cjs
-vite.config.ts
-tailwind.config.js
-
-# style file
-**/*.scss

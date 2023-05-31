@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
-import useProjectRoute from '@/hooks/useProjectRoute';
+
 import { minePath } from '@/consts/routes';
+import useProjectRoute from '@/hooks/useProjectRoute';
 
 const Home: FC = () => {
   const { goToRoute } = useProjectRoute();
 
   return (
-    <div className='home'>
+    <div className=''>
       <p>this is Home Page</p>
       <button type='button' onClick={() => goToRoute(minePath)}>
         去个人中心

@@ -30,6 +30,17 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["vite.config.ts", "**/*.ts", "**/*.tsx"],
+  // 因为这里会被加载到eslint配置里面去，所以都要加上
+  "include": [
+    "vite.config.ts",
+    ".eslintrc.cjs",
+    ".postcssrc.cjs",
+    ".commitlintrc.cjs",
+    "tailwind.config.cjs",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.html"
+  ],
   "exclude": ["node_modules"]
 }

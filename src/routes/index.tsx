@@ -1,12 +1,11 @@
+import { HomeOutlined, IdcardOutlined } from '@ant-design/icons';
 import { ReactNode } from 'react';
 import { RouteProps } from 'react-router-dom';
-import { HomeOutlined, IdcardOutlined } from '@ant-design/icons';
 
 import { homePath, minePath } from '@/consts/routes';
-
 import Home from '@/pages/home';
-import Page404 from '@/pages/page404';
 import Mine from '@/pages/mine';
+import Page404 from '@/pages/page404';
 
 // 关联的参数是布局组件需要的, name 是布局组件的显示名称，也作为遍历key使用的
 type routeProps = RouteProps & {

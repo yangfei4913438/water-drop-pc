@@ -2,6 +2,7 @@ import type { UploadFile, UploadProps } from 'antd';
 import { message, Modal, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { FC, useState } from 'react';
+
 import useUploadOSS from '@/hooks/useUploadOSS';
 
 interface OSSUploadProps {
@@ -18,7 +19,7 @@ const OSSImageUpload: FC<OSSUploadProps> = ({
   imgCropAspect = 1, // 1 / 1 简写
   maxFileSize = 5,
   value = [{ url: '' }] as UploadFile[],
-  onChange = () => {},
+  onChange = () => undefined,
 }) => {
   // 获取签名信息
   // 上传oss的响应方法

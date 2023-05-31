@@ -1,5 +1,6 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+
 import { AUTH_TOKEN } from '@/consts/cache';
 import localCache from '@/core/cache';
 

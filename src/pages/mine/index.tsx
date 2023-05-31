@@ -1,11 +1,12 @@
-import React, { FC, useLayoutEffect } from 'react';
-import { useMutation } from '@apollo/client';
-import useProjectRoute from '@/hooks/useProjectRoute';
-import { Col, Form, message, Row } from 'antd';
 import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
-import { ResultType, updateUser, type UserType } from '@/graphql/user';
-import useStore from '@/store';
+import { useMutation } from '@apollo/client';
+import { Col, Form, message, Row } from 'antd';
+import React, { FC, useLayoutEffect } from 'react';
+
 import OSSImageUpload from '@/components/OSSImageUpload';
+import { ResultType, updateUser, type UserType } from '@/graphql/user';
+import useProjectRoute from '@/hooks/useProjectRoute';
+import useStore from '@/store';
 import { printGraphqlException } from '@/utils/log';
 
 const Mine: FC = () => {
@@ -64,7 +65,7 @@ const Mine: FC = () => {
   };
 
   return (
-    <div className='mine'>
+    <div className=''>
       <ProForm
         form={form}
         onFinish={handleFinish}

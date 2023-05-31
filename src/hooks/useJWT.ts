@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client';
-import { ResultType, userProfile, UserType } from '@/graphql/user';
-import useStore from '@/store';
+
 import { homePath, loginPath } from '@/consts/routes';
+import { ResultType, userProfile, UserType } from '@/graphql/user';
 import useProjectRoute from '@/hooks/useProjectRoute';
-import { printGraphqlException } from '@/utils/log';
+import useStore from '@/store';
 import { gqlExceptionStatus } from '@/utils/graphqlResult';
+import { printGraphqlException } from '@/utils/log';
 
 // 检查JWT是否过期
 const useJWT = () => {

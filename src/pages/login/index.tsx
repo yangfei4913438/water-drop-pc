@@ -5,19 +5,19 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { message } from 'antd';
 import { useMutation } from '@apollo/client';
+import { message } from 'antd';
 
-import { checkCodeMsg, sendCodeMsg } from '@/graphql/sms';
-import styles from '@/styles/login.module.scss';
 import { AUTH_TOKEN } from '@/consts/cache';
-import useStore from '@/store';
-import useJWT from '@/hooks/useJWT';
 import { homePath } from '@/consts/routes';
-import useProjectRoute from '@/hooks/useProjectRoute';
 import localCache from '@/core/cache';
-import { printGraphqlException } from '@/utils/log';
+import { checkCodeMsg, sendCodeMsg } from '@/graphql/sms';
 import { ResultType, UserType } from '@/graphql/user';
+import useJWT from '@/hooks/useJWT';
+import useProjectRoute from '@/hooks/useProjectRoute';
+import useStore from '@/store';
+import styles from '@/styles/login.module.scss';
+import { printGraphqlException } from '@/utils/log';
 
 interface FormType {
   mobile: string;

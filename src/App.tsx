@@ -1,11 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { routesList } from '@/routes';
 import Layout from '@/components/layout';
-import Login from '@/pages/login';
 import { homePath, loginPath } from '@/consts/routes';
+import Login from '@/pages/login';
+import { routesList } from '@/routes';
 
 dayjs.extend(utc);
 

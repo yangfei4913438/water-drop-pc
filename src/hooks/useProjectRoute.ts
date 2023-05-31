@@ -1,6 +1,7 @@
-import { matchPath, type NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
-import { loginPath, routePaths, RouteType } from '@/consts/routes';
 import { useMemo } from 'react';
+import { matchPath, type NavigateOptions, useLocation, useNavigate } from 'react-router-dom';
+
+import { loginPath, routePaths, RouteType } from '@/consts/routes';
 
 const useProjectRoute = () => {
   const location = useLocation();

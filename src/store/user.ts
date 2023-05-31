@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+
 import { UserType } from '@/graphql/user';
 
 /** 用户信息默认值 */

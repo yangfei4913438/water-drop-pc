@@ -1,17 +1,16 @@
-import React, { ReactNode } from 'react';
-import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components';
-
-import { Link, useOutlet } from 'react-router-dom';
-import useStore from '@/store';
-import { routesList } from '@/routes';
-import useJWT from '@/hooks/useJWT';
-
-import styles from '@/styles/layout.module.scss';
-import { homePath, loginPath, minePath } from '@/consts/routes';
-import useProjectRoute from '@/hooks/useProjectRoute';
-import localCache from '@/core/cache';
 import { LogoutOutlined } from '@ant-design/icons';
+import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components';
 import { Space } from 'antd';
+import React, { ReactNode } from 'react';
+import { Link, useOutlet } from 'react-router-dom';
+
+import { homePath, loginPath, minePath } from '@/consts/routes';
+import localCache from '@/core/cache';
+import useJWT from '@/hooks/useJWT';
+import useProjectRoute from '@/hooks/useProjectRoute';
+import { routesList } from '@/routes';
+import useStore from '@/store';
+import styles from '@/styles/layout.module.scss';
 
 const menuItemRender = (item: MenuDataItem, dom: ReactNode) => (
   <Link to={item.path ?? homePath}>{dom}</Link>
